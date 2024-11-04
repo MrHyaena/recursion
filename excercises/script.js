@@ -82,14 +82,104 @@ var nestedObject = {
 };
 
 let hasIt = contains(nestedObject, 44); // true
-let doesntHaveIt = contains(nestedObject, "foo"); // false
 
 function contains(obj, search) {
-  if (obj.Object.keys(obj)[0] > -1) {
-    return true;
-  } else {
-    return contains(Object.keys(obj)[0], search);
+  // Object has only one property
+
+  let objectLength = Object.keys(obj).length;
+  let indexObj = objectLength - 1;
+  let propOne = obj[Object.keys(obj)[indexObj]];
+
+  if (objectLength == 1) {
+    // Object length is one
+
+    if (obj.propOne == search) {
+      // Equals
+
+      return console.log(true);
+    } else if (typeof propOne === "object") {
+      // Is object
+
+      return contains(propOne, search);
+    } else if (obj.propOne !== search) {
+      // Doesnt equal
+
+      return console.log(false);
+    }
+  }
+
+  // Object has more properties
+  else {
+    let objectArray = Object.keys(obj);
+    objectArray.map((prop) => {
+      if (typeof obj[prop] !== "object") {
+        if (obj[prop] == search) {
+          return true;
+        } else {
+          return false;
+        }
+      } else typeof obj[prop] === "object";
+      contains(obj[prop], search);
+    });
   }
 }
 
-console.log(hasIt);
+// Seventh
+let intCount = 0;
+var seven = totalIntegers([[[5], 3], 0, 2, ["foo"], [], [4, [5, 6]]]); // 7
+
+function totalIntegers(array) {
+  array.map((item) => {
+    if (typeof item == "number") {
+      intCount = intCount + 1;
+    } else if (Array.isArray(item)) {
+      totalIntegers(item);
+    }
+  });
+
+  return;
+}
+
+function totalIntegers(array) {
+  if (array.length === 0) return 0;
+
+  let total = 0;
+  let first = array.shift();
+
+  if (Array.isArray(first)) {
+    total += totalIntegers(first);
+  } else if (Number.isInteger(first)) {
+    total += 1;
+  }
+
+  return total + totalIntegers(array);
+}
+
+// Eight
+
+function SumSquares(array) {
+  if (array.length === 0) return 0;
+
+  let total = 0;
+  let first = array.shift();
+
+  if (Array.isArray(first)) {
+    total += SumSquares(first);
+  } else if (Number.isInteger(first)) {
+    total = total + first * first;
+  }
+
+  return total + SumSquares(array);
+}
+
+// Ninth
+
+console.log(replicate(3, 5)); // [5, 5, 5]
+
+function replicate(nas, num) {
+  if (nas < 1) {
+    return [];
+  } else if (nas >= 1) {
+    return [num].concat(replicate(nas - 1, num));
+  }
+}
